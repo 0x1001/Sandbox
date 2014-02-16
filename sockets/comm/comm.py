@@ -15,7 +15,7 @@ class Comm(object):
         Variable:
     """
     ACKNOWLEDGE = b'ACKNOWLEDGE'
-    BUFFER_SIZE = 4096
+    BUFFER_SIZE = 8192
     RECV_TIMEOUT = 30
 
     def send(self,data):
@@ -77,8 +77,10 @@ class Comm(object):
         received_data_length = 0
         data_received = ""
         while received_data_length < data_length:
-            data_received = data_received + self._lowLevelRecv(self.BUFFER_SIZE)
+            data = self._lowLevelRecv(self.BUFFER_SIZE)
+            data_received = data_received + data
             received_data_length = len(data_received)
+            print len(data)
 
         self._lowLevelSend(self.ACKNOWLEDGE)
 
