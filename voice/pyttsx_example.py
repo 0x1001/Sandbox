@@ -1,6 +1,6 @@
 import pyttsx
 engine = pyttsx.init()
-#engine.setProperty('rate', 70)
+#engine.setProperty('rate', 150)
 
 voices = engine.getProperty('voices')
 for voice in voices:
