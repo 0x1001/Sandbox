@@ -32,8 +32,8 @@ if __name__ == "__main__":
     import argparse
 
     parser = argparse.ArgumentParser(description='Counts lines in text files')
-    parser.add_argument('-i', dest='input', type=str, help='Input folder or file')
-    parser.add_argument('-e', dest='ext', type=str, required=False, default="py", help='File extension. Default is "py"')
+    parser.add_argument('-i',dest='input',type=str,required=True,help='Input folder or file')
+    parser.add_argument('-e',dest='ext',type=str,required=False,default="py",help='File extension. Default is "py"')
 
     args = parser.parse_args()
 
