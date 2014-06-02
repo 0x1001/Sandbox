@@ -45,6 +45,8 @@ def train(data):
 
         data_set.addSample(input_data,output_data)
 
+    print "Training Data set length: " + str(len(data_set))
+
     net = buildNetwork(INPUT,HIDDEN,OUTPUT)
     trainer = BackpropTrainer(net,data_set)
     trainer.trainUntilConvergence()
@@ -56,9 +58,11 @@ if __name__ == "__main__":
     import datetime
 
     start_time = datetime.datetime.now()
+    print start_time
     data = getData()
     net = train(data)
     end_time = datetime.datetime.now()
+    print end_time
 
     print "Last 10 days data:   " + " ".join([str(num) for num in data[-10:]])
     print "Next day prediction: " + str(net.activate(data[-10:])[0])
