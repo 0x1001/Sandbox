@@ -25,7 +25,7 @@ def train(data):
     OUTPUT = 1
 
     data_set = SupervisedDataSet(INPUT,OUTPUT)
-    for idx,element in enumerate(data):
+    for idx in range(len(data)):
         input_data = (data[idx],
                       data[idx + 1],
                       data[idx + 2],
@@ -53,21 +53,35 @@ def train(data):
 
     return net
 
+def day_prediction(data,real_data):
+    net = train(data)
+
+    log = "Next day prediction: " + str(net.activate(data[-10:])[0]*100) + "% Real data: " + str(real_data*100) + "%"
+    print log
+
+    with open("log.txt","a") as fp:
+        fp.write(log + "\n")
+
 if __name__ == "__main__":
-    import pickle
     import datetime
 
     start_time = datetime.datetime.now()
     print start_time
+
     data = getData()
-    net = train(data)
+
+    for idx in range(len(data)):
+        input_data = [data[idx + i] for i in range(30)]
+
+        try:
+            expected_data = data[idx + 30]
+        except IndexError:
+            break
+
+        print "Progress: " + str(idx) + " / " + str(len(data)-30)
+        day_prediction(input_data,expected_data)
+
     end_time = datetime.datetime.now()
     print end_time
 
-    print "Last 10 days data:   " + " ".join([str(num) for num in data[-10:]])
-    print "Next day prediction: " + str(net.activate(data[-10:])[0])
-
     print "Calculation took:    " + str((end_time - start_time).total_seconds()/60) + " Min"
-    with open("net.pck","wb") as fp:
-        net_str = pickle.dump(net,fp)
-
