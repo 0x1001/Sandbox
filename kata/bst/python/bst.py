@@ -1,4 +1,5 @@
 import unittest
+import random
 
 class Node(object):
     def __init__(self,key):
@@ -6,6 +7,9 @@ class Node(object):
         self.right = None
         self.left = None
         self.key = key
+
+    def __str__(self):
+        return str(self.key)
 
 class BST(object):
     def __init__(self):
@@ -34,6 +38,37 @@ class BST(object):
     def find(self,key):
         return False if self._node_find(self.root,key) is None else True
 
+    def min(self):
+        return self._node_find_min(self.root).key
+
+    def max(self):
+        return self._node_find_max(self.root).key
+
+    def delete(self,key):
+        node = self._node_find(self.root,key)
+
+        if node is not None:
+            self._node_delete(node)
+
+    def _node_delete(self,node):
+        if node.left is None and node.right is None:
+            if node.root is not None:
+                if node is node.root.left:
+                    node.root.left = None
+                else:
+                    node.root.right = None
+        elif node.right is not None:
+            min_node = self._node_find_min(node.right)
+            self._node_swap(node,min_node)
+            self._node_delete(min_node)
+        else:
+            max_node = self._node_find_max(node.left)
+            self._node_swap(node,max_node)
+            self._node_delete(max_node)
+
+    def _node_swap(self,node_a, node_b):
+        node_a.key, node_b.key = node_b.key, node_a.key
+
     def _node_find(self,node,key):
         if node is None:
             return None
@@ -44,26 +79,17 @@ class BST(object):
         else:
             return self._node_find(node.left,key)
 
-    def delete(self,key):
-        node = self._node_find(self.root,key)
+    def _node_find_max(self,node):
+        while node.right is not None:
+            node = node.right
 
-        if node == None:
-            return
+        return node
 
-        self._node_delete(node)
+    def _node_find_min(self,node):
+        while node.left is not None:
+            node = node.left
 
-    def _node_delete(self,node):
-        if node.left is None and node.right is None:
-            if node.root.left is node:
-                node.root.left = None
-            else:
-                node.root.right = None
-        elif node.right is None: # Right node is missing so swap with left node
-            node.key,node.left.key = node.left.key,node.key
-            self._node_delete(node.left)
-        else: # Right node is present so swap with right node (doesn't matter if left node is there or not becasue always has to swap with bigger key which is always on right)
-            node.key,node.right.key = node.right.key,node.key
-            self._node_delete(node.right)
+        return node
 
 class Test_BST(unittest.TestCase):
     def balanced_tree(self):
@@ -130,7 +156,46 @@ class Test_BST(unittest.TestCase):
         self.assertFalse(bst.find(9))
         self.assertFalse(bst.find(0))
 
-    def test_delete(self):
+    def test_min(self):
+        array = [random.randint(0,10000) for i in range(100)]
+
+        bst = BST()
+        for i in array:
+            bst.insert(i)
+
+        self.assertEqual(bst.min(),min(array))
+
+    def test_max(self):
+        array = [random.randint(0,10000) for i in range(100)]
+
+        bst = BST()
+        for i in array:
+            bst.insert(i)
+
+        self.assertEqual(bst.max(),max(array))
+
+    def test_delete_leaves(self):
+        bst = self.balanced_tree()
+
+        bst.delete(1)
+        self.assertFalse(bst.find(1))
+
+        bst.delete(3)
+        self.assertFalse(bst.find(3))
+
+        bst.delete(6)
+        self.assertFalse(bst.find(6))
+
+        bst.delete(8)
+        self.assertFalse(bst.find(8))
+
+    def test_delete_node(self):
+        bst = self.balanced_tree()
+
+        bst.delete(7)
+        self.assertFalse(bst.find(7))
+
+    def test_delete_multiple(self):
         bst = self.balanced_tree()
 
         bst.delete(8)
