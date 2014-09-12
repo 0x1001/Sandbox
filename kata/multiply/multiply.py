@@ -3,50 +3,41 @@ import unittest
 def multiply(a,b):
     if a == [] or b == []:
         return []
-    elif a == [0] or b == [0]:
-        return [0]
 
-    a.reverse()
-    b.reverse()
+    product_array = [0 for i in range(len(a) + len(b) + 1)]
 
-    product_array = []
-    for idx_a, n_a in enumerate(b):
-        for idx_b, n_b in enumerate(a):
-            product = n_a * n_b
+    for idx_b, n_b in enumerate(b):
+        for idx_a, n_a in enumerate(a):
+            product = n_b * n_a
 
             idx = 0
             while product != 0:
+                idx_p = (len(a) - idx_a - 1) + (len(b) - idx_b - 1) + idx
                 unity = product % 10
-                idx_p = idx_a + idx_b + idx
 
-                if len(product_array) > idx_p:
-                    insert(product_array, idx_p, unity)
-                else:
-                    product_array.append(unity)
+                while unity != 0:
+                    overflow = (product_array[idx_p] + unity) / 10
 
-                product = product / 10
+                    if overflow == 0:
+                        product_array[idx_p] = product_array[idx_p] + unity
+                    else:
+                        product_array[idx_p] = (product_array[idx_p] + unity) % 10
+
+                    unity = overflow
+                    idx_p += 1
+
                 idx += 1
+                product = product / 10
+
+    for idx in range(len(product_array) - 1, 0, -1):
+        if product_array[idx] == 0:
+            product_array.pop()
+        else:
+            break
 
     product_array.reverse()
     return product_array
 
-def insert(product_array,idx,unity):
-    while True:
-        overflow = (product_array[idx] + unity) / 10
-
-        if overflow == 0:
-            product_array[idx] = product_array[idx] + unity
-            break
-        else:
-            product_array[idx] = (product_array[idx] + unity) % 10
-
-            if len(product_array) > idx + 1:
-                unity = overflow
-            else:
-                product_array.append(overflow)
-                break
-
-        idx += 1
 
 class Test_multiply(unittest.TestCase):
     def compose(self,d):
@@ -105,39 +96,23 @@ class Test_multiply(unittest.TestCase):
         self.assertEqual(multiply([1,1,1],[1,1,1]),[1,2,3,2,1])
         self.assertEqual(multiply([9,9,9],[9,9,9]),[9,9,8,0,0,1])
 
-    def test_multiply_big(self):
+    def test_multiply_random_numbers(self):
         import random
 
-        random_a = random.randint(0, 100)
-        random_b = random.randint(0, 100)
+        random_a = random.randint(0, 10000)
+        random_b = random.randint(0, 10000)
 
         result = self.compose(multiply(self.decompose(random_a),self.decompose(random_b)))
         self.assertEqual(result, random_a * random_b)
 
-    def test_insert(self):
-        array = [1,2,3,4,5,6]
-        insert(array,0,1)
-        self.assertEqual(array,[2,2,3,4,5,6])
+    def test_multiply_random_big_numbers(self):
+        import random
 
-        array = [9,2,3,4,5,6]
-        insert(array,0,1)
-        self.assertEqual(array,[0,3,3,4,5,6])
+        a = [random.randint(0,9) for i in range(1000)]
+        b = [random.randint(0,9) for i in range(1000)]
+        p = multiply(a,b)
 
-        array = [9,9,9,4,5,6]
-        insert(array,0,1)
-        self.assertEqual(array,[0,0,0,5,5,6])
-
-        array = [9,9,9,9,9,9]
-        insert(array,0,1)
-        self.assertEqual(array,[0,0,0,0,0,0,1])
-
-        array = [9,9,9,9,9,9]
-        insert(array,3,1)
-        self.assertEqual(array,[9,9,9,0,0,0,1])
-
-        array = [9,9,9,9,9,9]
-        insert(array,5,1)
-        self.assertEqual(array,[9,9,9,9,9,0,1])
+        self.assertEqual(self.compose(p), self.compose(a) * self.compose(b))
 
 if __name__ == "__main__":
     unittest.main()
