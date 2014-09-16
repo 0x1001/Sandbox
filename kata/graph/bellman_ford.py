@@ -17,40 +17,34 @@ class Vertex(object):
     def __str__(self):
         return self.name
 
-def dijkstra(adj,s):
+def bellman_ford(adj,s):
     s.distance = 0  # Update distance of first vertex
-    S = set()       # Contains set of verteces that have shortes path calculated. Increases over time
-    Q = adj[:]      # List of all vertexes. Decreases over time.
 
-    while Q != []:
-        u = extract_min(Q)          # Get vertex with shortes path and remove it from queue
-        S.add(u)                    # Addit to S
-        for v in u.neighbors():     # Relax all edges
-            relax(v,u)
+    for i in range(len(adj) - 1):
+        for u in adj:
+            for v in u.neighbors():
+                relax(v,u)
+
+    negative_cycle = []
+    for u in adj:
+        for v in u.neighbors():
+            if v.distance > u.distance + u.weight(v):
+                negative_cycle.append((u,v))
+
+    return negative_cycle
 
 def relax(v,u):
     if v.distance > u.distance + u.weight(v):   # Distance at the begining is set to infinity
         v.distance = u.distance + u.weight(v)
         v.predecessor = u
 
-def extract_min(array):
-    smallest = sys.maxint
-    smallest_idx = 0
-
-    for i,v in enumerate(array):
-        if v.distance < smallest:
-            smallest = v.distance
-            smallest_idx = i
-
-    return array.pop(smallest_idx)
-
-class Test_dijkstra(unittest.TestCase):
-    def test_dijkstra_one(self):
+class Test_bellman_ford(unittest.TestCase):
+    def test_bellman_ford_one(self):
         s = Vertex("a")
         adj = [s]
-        dijkstra(adj,s)
+        bellman_ford(adj,s)
 
-    def test_dijkstra(self):
+    def test_bellman_ford(self):
         a = Vertex("a")
         b = Vertex("b")
         c = Vertex("c")
@@ -63,16 +57,15 @@ class Test_dijkstra(unittest.TestCase):
         d.adj = {e: 9}
         e.adj = {d: 7}
 
-        dijkstra([a, b, c, d, e], a)
+        negative_cycle = bellman_ford([a, b, c, d, e], a)
+
+        self.assertEqual(negative_cycle, [])
 
         self.assertEqual(b.predecessor, c)
         self.assertEqual(c.predecessor, a)
-
         self.assertEqual(b.distance, 7)
-
         self.assertEqual(d.predecessor, b)
         self.assertEqual(d.distance, 9)
-
         self.assertEqual(e.predecessor, c)
         self.assertEqual(e.distance, 5)
 
