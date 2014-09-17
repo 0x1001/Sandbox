@@ -20,15 +20,15 @@ class Vertex(object):
 def bellman_ford(adj,s):
     s.distance = 0  # Update distance of first vertex
 
-    for i in range(len(adj) - 1):
-        for u in adj:
+    for i in range(len(adj) - 1):       # Repeat |adj| - 1 times
+        for u in adj:                   # Relax all edges
             for v in u.neighbors():
                 relax(v,u)
 
     negative_cycle = []
-    for u in adj:
-        for v in u.neighbors():
-            if v.distance > u.distance + u.weight(v):
+    for u in adj:                                       # Check for negative cycles
+        for v in u.neighbors():                         # Check all edges
+            if v.distance > u.distance + u.weight(v):   # If any of them can be relaxed that implies negative cycle
                 negative_cycle.append((u,v))
 
     return negative_cycle
@@ -68,6 +68,29 @@ class Test_bellman_ford(unittest.TestCase):
         self.assertEqual(d.distance, 9)
         self.assertEqual(e.predecessor, c)
         self.assertEqual(e.distance, 5)
+
+    def test_bellman_ford_big(self):
+        import random
+
+        adj = [Vertex(str(i)) for i in range(1000)]
+
+        for v in adj:
+            for i in range(random.randint(0,10)):
+                u = random.choice(adj)
+                if u != v:
+                    v.adj[u] = random.randint(1,50)
+
+        bellman_ford(adj, adj[0])
+
+##        v = adj[-1]
+##        print "Start: " + str(v)
+##        while True:
+##            print str(v.predecessor) + " - " + str(v.distance)
+##
+##            if  v.predecessor == adj[0] or v.predecessor is None:
+##                break
+##            else:
+##                v = v.predecessor
 
 if __name__ == "__main__":
     unittest.main()
