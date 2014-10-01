@@ -1,14 +1,21 @@
 import unittest
 
-def counting_sort(list_to_sort,max):
-    bucket = [ 0 for i in range(max + 1)]
+def counting_sort(list_to_sort, max):
+    possition = [ 0 for i in range(max + 2)]
 
     for e in list_to_sort:
-        bucket[e] += 1
+        possition[e] += 1
 
-    sorted_list = []
-    for i, e in enumerate(bucket):
-        sorted_list.extend([i]*e)
+    sum = 0
+    for i in range(max + 2):
+        temp = possition[i]
+        possition[i] = sum
+        sum += temp
+
+    sorted_list = [0]*len(list_to_sort)
+    for i in range(len(sorted_list)):
+        sorted_list[possition[list_to_sort[i]]] = list_to_sort[i]
+        possition[list_to_sort[i]] += 1
 
     return sorted_list
 
@@ -39,6 +46,9 @@ class Test_counting_sort(unittest.TestCase):
 
         random_list.sort()
         self.assertEqual(sorted_list,random_list)
+
+    def test_sort_5_elements(self):
+        self.assertEqual(counting_sort([4,3,1,2,3],4),[1,2,3,3,4])
 
 if __name__ == "__main__":
     unittest.main()
