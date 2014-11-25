@@ -1,16 +1,20 @@
 import unittest
 
 def bubble(array, left, right):
+    passes = 0
     while True:
         swap_happend = False
-        for j in range(len(array) - 1):
+        for j in range(len(array) - 1 - passes):
             if array[j] > array [j + 1]:
                 array[j], array[j + 1] = array[j + 1], array[j]
                 swap_happend = True
+
+        passes += 1
+
         if not swap_happend:
             return array
 
-class Test_qsort(unittest.TestCase):
+class Test_bubble(unittest.TestCase):
     def test_sort_empty(self):
         self.assertEqual(bubble([], 0, 0),[])
 

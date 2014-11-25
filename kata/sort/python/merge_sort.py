@@ -48,8 +48,13 @@ def _merge(list_to_sort, left, mid, right):
     left_idx = left
     right_idx = mid + 1
     for i in range(left, right + 1):
-        if (right_idx <= right and
-           (left_idx > mid or list_to_sort[left_idx] > list_to_sort[right_idx])):
+        if right_idx > right:
+            buff.append(list_to_sort[left_idx])
+            left_idx += 1
+        elif left_idx > mid:
+           buff.append(list_to_sort[right_idx])
+           right_idx += 1
+        elif list_to_sort[left_idx] > list_to_sort[right_idx]:
             buff.append(list_to_sort[right_idx])
             right_idx += 1
         else:
