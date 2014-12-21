@@ -1,3 +1,5 @@
+package cards;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -6,11 +8,8 @@ public class Deck {
 
     public Deck(){
         for(Suit suit : Suit.values()){
-            for(int i = 0; i < 13; i++) {
-                Card card = new Card();
-                card.setSuite(suit);
-                card.setValue(i);
-                cards.add(card);
+            for(int i = 1; i < 14; i++) {
+                cards.add(new Card(i, suit));
             }
         }
     }

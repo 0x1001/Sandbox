@@ -1,13 +1,11 @@
+package game;
+
+import cards.Card;
+
 import java.util.ArrayList;
 
 public class Player {
-    private int id;
-    private ArrayList<Card> cards;
-
-    public Player(int id){
-        cards = new ArrayList<Card>();
-        id = id;
-    }
+    private ArrayList<Card> cards = new ArrayList<Card>();;
 
     public void addCard(Card card) {
         cards.add(card);

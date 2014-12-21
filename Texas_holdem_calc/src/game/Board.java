@@ -1,3 +1,7 @@
+package game;
+
+import cards.Card;
+
 import java.util.ArrayList;
 
 public class Board {

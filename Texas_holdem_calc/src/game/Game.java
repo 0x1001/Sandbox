@@ -1,18 +1,20 @@
+package game;
+
+import cards.Card;
+import cards.Deck;
+import rules.Rules;
+
 import java.util.ArrayList;
 
 public class Game {
-    private Deck deck;
-    private ArrayList<Player> players;
-    private Board board;
+    private Deck deck = new Deck();
+    private ArrayList<Player> players = new ArrayList<Player>();
+    private Board board = new Board();
+    private Rules rules = new Rules();
 
     public Game(int players_num){
-        deck = new Deck();
-        players = new ArrayList<Player>();
-        board = new Board();
-
         for(int player = 0; player < players_num; player++)
-            players.add(new Player(player));
-
+            players.add(new Player());
     }
 
     public void deal() {
@@ -28,6 +30,8 @@ public class Game {
     }
 
     public void verify() {
-
+        for(Player player: players){
+            System.out.println(rules.evaluate(player, board));
+        }
     }
 }

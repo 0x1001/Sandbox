@@ -1,48 +1,98 @@
+import cards.Card;
+import cards.Suit;
+import game.Board;
+import game.Player;
 import org.junit.Test;
+import rules.Rules;
 
-import java.util.ArrayList;
+import static org.junit.Assert.assertTrue;
 
 public class TestRules {
     @Test
-    public void test_rules(){
+    public void test_rules_straight_flush(){
         Rules rules = new Rules();
 
-        Player player = new Player(0);
+        Player player1 = new Player();
+        player1.addCard(new Card(1, Suit.SPADES));
+        player1.addCard(new Card(2, Suit.SPADES));
 
-        Card p_card1 = new Card();
-        p_card1.setSuite(Suit.DIAMONDS);
-        p_card1.setValue(1);
-        Card p_card2 = new Card();
-        p_card2.setSuite(Suit.DIAMONDS);
-        p_card2.setValue(2);
-
-        player.addCard(p_card1);
-        player.addCard(p_card2);
+        Player player2 = new Player();
+        player2.addCard(new Card(11, Suit.HEARTS));
+        player2.addCard(new Card(11, Suit.SPADES));
 
         Board board = new Board();
+        board.addCard(new Card(3, Suit.SPADES));
+        board.addCard(new Card(4, Suit.SPADES));
+        board.addCard(new Card(5, Suit.SPADES));
+        board.addCard(new Card(11, Suit.CLUBS));
+        board.addCard(new Card(10, Suit.HEARTS));
 
-        Card b_card1 = new Card();
-        b_card1.setSuite(Suit.DIAMONDS);
-        b_card1.setValue(3);
-        Card b_card2 = new Card();
-        b_card2.setSuite(Suit.DIAMONDS);
-        b_card2.setValue(4);
-        Card b_card3 = new Card();
-        b_card3.setSuite(Suit.DIAMONDS);
-        b_card3.setValue(5);
-        Card b_card4 = new Card();
-        b_card4.setSuite(Suit.CLUBS);
-        b_card4.setValue(11);
-        Card b_card5 = new Card();
-        b_card5.setSuite(Suit.HEARTS);
-        b_card5.setValue(10);
+        assertTrue(rules.evaluate(player1, board) > rules.evaluate(player2, board));
+    }
 
-        board.addCard(b_card1);
-        board.addCard(b_card2);
-        board.addCard(b_card3);
-        board.addCard(b_card4);
-        board.addCard(b_card5);
+    @Test
+    public void test_rules_pair(){
+        Rules rules = new Rules();
 
-        System.out.println(rules.evaluate(player, board));
+        Player player1 = new Player();
+        player1.addCard(new Card(3, Suit.HEARTS));
+        player1.addCard(new Card(2, Suit.DIAMONDS));
+
+        Player player2 = new Player();
+        player2.addCard(new Card(12, Suit.HEARTS));
+        player2.addCard(new Card(2, Suit.SPADES));
+
+        Board board = new Board();
+        board.addCard(new Card(3, Suit.SPADES));
+        board.addCard(new Card(4, Suit.HEARTS));
+        board.addCard(new Card(6, Suit.SPADES));
+        board.addCard(new Card(11, Suit.CLUBS));
+        board.addCard(new Card(10, Suit.HEARTS));
+
+        assertTrue(rules.evaluate(player1, board) > rules.evaluate(player2, board));
+    }
+
+    @Test
+    public void test_rules_two_pair(){
+        Rules rules = new Rules();
+
+        Player player1 = new Player();
+        player1.addCard(new Card(3, Suit.HEARTS));
+        player1.addCard(new Card(4, Suit.DIAMONDS));
+
+        Player player2 = new Player();
+        player2.addCard(new Card(11, Suit.HEARTS));
+        player2.addCard(new Card(2, Suit.SPADES));
+
+        Board board = new Board();
+        board.addCard(new Card(3, Suit.SPADES));
+        board.addCard(new Card(4, Suit.HEARTS));
+        board.addCard(new Card(6, Suit.SPADES));
+        board.addCard(new Card(11, Suit.CLUBS));
+        board.addCard(new Card(10, Suit.HEARTS));
+
+        assertTrue(rules.evaluate(player1, board) > rules.evaluate(player2, board));
+    }
+
+    @Test
+    public void test_rules_straight_flush_with_ace(){
+        Rules rules = new Rules();
+
+        Player player1 = new Player();
+        player1.addCard(new Card(6, Suit.SPADES));
+        player1.addCard(new Card(7, Suit.SPADES));
+
+        Player player2 = new Player();
+        player2.addCard(new Card(2, Suit.SPADES));
+        player2.addCard(new Card(1, Suit.SPADES));
+
+        Board board = new Board();
+        board.addCard(new Card(3, Suit.SPADES));
+        board.addCard(new Card(4, Suit.SPADES));
+        board.addCard(new Card(5, Suit.SPADES));
+        board.addCard(new Card(11, Suit.CLUBS));
+        board.addCard(new Card(10, Suit.HEARTS));
+
+        assertTrue(rules.evaluate(player1, board) > rules.evaluate(player2, board));
     }
 }

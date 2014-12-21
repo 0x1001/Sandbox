@@ -1,3 +1,4 @@
+import game.Game;
 import org.junit.Test;
 
 public class TestGame {

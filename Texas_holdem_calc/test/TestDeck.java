@@ -1,3 +1,5 @@
+import cards.Card;
+import cards.Deck;
 import org.junit.Test;
 
 import java.util.ArrayList;
