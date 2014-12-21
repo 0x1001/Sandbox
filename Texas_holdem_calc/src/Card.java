@@ -1,4 +1,4 @@
-public class Card {
+public class Card implements Comparable<Card> {
     private Suit suite;
     private int value;
 
@@ -16,5 +16,14 @@ public class Card {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public int compareTo(Card compare_card){
+        if (value > compare_card.getValue())
+            return 1;
+        else if (value < compare_card.getValue())
+            return -1;
+        else
+            return 0;
     }
 }
