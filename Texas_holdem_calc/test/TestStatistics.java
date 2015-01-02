@@ -8,7 +8,6 @@ public class TestStatistics {
         Statistics stats = new Statistics();
 
         stats.run();
-        stats.display();
         stats.save("output.txt");
     }
 }

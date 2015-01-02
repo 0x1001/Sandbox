@@ -1,0 +1,291 @@
+### + Hits: 1
+12 CLUBS
+12 HEARTS
+### + Hits: 1
+11 SPADES
+12 DIAMONDS
+### + Hits: 1
+3 HEARTS
+5 HEARTS
+### + Hits: 0
+5 HEARTS
+1 HEARTS
+### + Hits: 0
+1 CLUBS
+2 SPADES
+### + Hits: 0
+4 SPADES
+11 HEARTS
+### + Hits: 0
+12 CLUBS
+11 HEARTS
+### + Hits: 0
+6 HEARTS
+7 HEARTS
+### + Hits: 0
+5 CLUBS
+12 SPADES
+### + Hits: 0
+10 DIAMONDS
+8 HEARTS
+### + Hits: 0
+10 DIAMONDS
+4 DIAMONDS
+### + Hits: 0
+7 DIAMONDS
+9 HEARTS
+### + Hits: 0
+3 HEARTS
+10 HEARTS
+### + Hits: 0
+11 HEARTS
+13 HEARTS
+### + Hits: 0
+11 DIAMONDS
+8 DIAMONDS
+### + Hits: 0
+13 SPADES
+7 SPADES
+### + Hits: 0
+10 HEARTS
+6 HEARTS
+### + Hits: 0
+1 DIAMONDS
+8 HEARTS
+### + Hits: 0
+9 CLUBS
+7 SPADES
+### + Hits: 0
+5 HEARTS
+13 DIAMONDS
+### + Hits: 0
+12 DIAMONDS
+10 HEARTS
+### + Hits: 0
+9 CLUBS
+9 DIAMONDS
+### + Hits: 0
+12 HEARTS
+10 SPADES
+### + Hits: 0
+5 HEARTS
+9 HEARTS
+### + Hits: 0
+13 HEARTS
+1 HEARTS
+### + Hits: 0
+1 CLUBS
+9 DIAMONDS
+### + Hits: 0
+13 HEARTS
+5 SPADES
+### + Hits: 0
+8 HEARTS
+8 SPADES
+### + Hits: 0
+7 HEARTS
+11 CLUBS
+### + Hits: 0
+7 DIAMONDS
+13 HEARTS
+### + Hits: 0
+7 DIAMONDS
+13 CLUBS
+### + Hits: 0
+2 CLUBS
+10 CLUBS
+### + Hits: 0
+6 DIAMONDS
+10 HEARTS
+### + Hits: 0
+11 DIAMONDS
+3 SPADES
+### + Hits: 0
+13 CLUBS
+4 HEARTS
+### + Hits: 0
+1 SPADES
+1 DIAMONDS
+### + Hits: 0
+4 SPADES
+7 DIAMONDS
+### + Hits: 0
+9 HEARTS
+7 CLUBS
+### + Hits: 0
+4 HEARTS
+4 DIAMONDS
+### + Hits: 0
+9 HEARTS
+8 CLUBS
+### + Hits: 0
+7 DIAMONDS
+10 CLUBS
+### + Hits: 0
+13 DIAMONDS
+1 HEARTS
+### + Hits: 0
+13 CLUBS
+11 DIAMONDS
+### + Hits: 0
+13 DIAMONDS
+9 DIAMONDS
+### + Hits: 0
+12 CLUBS
+7 CLUBS
+### + Hits: 0
+7 SPADES
+8 CLUBS
+### + Hits: 0
+11 CLUBS
+7 DIAMONDS
+### + Hits: 0
+13 DIAMONDS
+7 DIAMONDS
+### + Hits: 0
+12 CLUBS
+1 CLUBS
+### + Hits: 0
+12 HEARTS
+4 HEARTS
+### + Hits: 0
+7 CLUBS
+3 SPADES
+### + Hits: 0
+7 SPADES
+2 CLUBS
+### + Hits: 0
+3 CLUBS
+13 HEARTS
+### + Hits: 0
+12 DIAMONDS
+9 HEARTS
+### + Hits: 0
+6 SPADES
+13 DIAMONDS
+### + Hits: 0
+1 DIAMONDS
+11 DIAMONDS
+### + Hits: 0
+7 HEARTS
+5 CLUBS
+### + Hits: 0
+6 SPADES
+5 DIAMONDS
+### + Hits: 0
+8 DIAMONDS
+1 CLUBS
+### + Hits: 0
+9 DIAMONDS
+1 SPADES
+### + Hits: 0
+11 DIAMONDS
+1 SPADES
+### + Hits: 0
+11 CLUBS
+2 CLUBS
+### + Hits: 0
+13 DIAMONDS
+1 CLUBS
+### + Hits: 0
+1 SPADES
+12 DIAMONDS
+### + Hits: 0
+12 HEARTS
+13 DIAMONDS
+### + Hits: 0
+1 HEARTS
+6 DIAMONDS
+### + Hits: 0
+5 SPADES
+2 HEARTS
+### + Hits: 0
+13 HEARTS
+8 HEARTS
+### + Hits: 0
+8 DIAMONDS
+6 CLUBS
+### + Hits: 0
+8 DIAMONDS
+13 HEARTS
+### + Hits: 0
+11 CLUBS
+12 DIAMONDS
+### + Hits: 0
+5 DIAMONDS
+5 HEARTS
+### + Hits: 0
+4 CLUBS
+7 HEARTS
+### + Hits: 0
+5 CLUBS
+6 HEARTS
+### + Hits: 0
+11 HEARTS
+2 HEARTS
+### + Hits: 0
+10 DIAMONDS
+6 DIAMONDS
+### + Hits: 0
+1 CLUBS
+1 HEARTS
+### + Hits: 0
+1 HEARTS
+1 SPADES
+### + Hits: 0
+13 DIAMONDS
+3 CLUBS
+### + Hits: 0
+9 DIAMONDS
+5 DIAMONDS
+### + Hits: 0
+2 HEARTS
+6 SPADES
+### + Hits: 0
+9 CLUBS
+5 DIAMONDS
+### + Hits: 0
+7 HEARTS
+12 HEARTS
+### + Hits: 0
+6 CLUBS
+5 DIAMONDS
+### + Hits: 0
+6 CLUBS
+10 SPADES
+### + Hits: 0
+3 DIAMONDS
+3 HEARTS
+### + Hits: 0
+2 SPADES
+9 SPADES
+### + Hits: 0
+13 SPADES
+11 CLUBS
+### + Hits: 0
+12 DIAMONDS
+1 CLUBS
+### + Hits: 0
+1 DIAMONDS
+13 CLUBS
+### + Hits: 0
+10 SPADES
+10 DIAMONDS
+### + Hits: 0
+12 DIAMONDS
+11 HEARTS
+### + Hits: 0
+8 HEARTS
+4 CLUBS
+### + Hits: 0
+11 CLUBS
+7 CLUBS
+### + Hits: 0
+5 HEARTS
+8 DIAMONDS
+### + Hits: 0
+8 DIAMONDS
+3 DIAMONDS
+### + Hits: 0
+2 HEARTS
+7 HEARTS

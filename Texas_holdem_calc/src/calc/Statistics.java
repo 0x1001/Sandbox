@@ -12,16 +12,16 @@ public class Statistics {
     ArrayList<PlayerCards> player_cards = new ArrayList<PlayerCards>();
 
     public void run(){
-        for(int i=0; i < 10000; i++) {
+        for(int i=0; i < 100; i++) {
             Game game = new Game(4);
             game.deal();
             addPlayerCards(new PlayerCards(game.winner().getCards()));
         }
+
+        Collections.sort(player_cards, Collections.reverseOrder());
     }
 
     public void display(){
-        Collections.sort(player_cards);
-
         print_cards(player_cards.get(0).getCards());
         print_cards(player_cards.get(1).getCards());
         print_cards(player_cards.get(2).getCards());
@@ -34,7 +34,7 @@ public class Statistics {
                 if (this.player_cards.size() == i)
                     break;
 
-                out.println("###");
+                out.println("### + Hits: " + this.player_cards.get(i).getHits());
                 for (Card card : this.player_cards.get(i).getCards())
                     out.println(card.getValue() + " " + card.getSuit());
             }
