@@ -1,4 +1,5 @@
 import game.Game;
+import game.Player;
 import org.junit.Test;
 
 public class TestGame {
@@ -7,6 +8,16 @@ public class TestGame {
         Game game = new Game(4);
 
         game.deal();
-        game.verify();
+        Player winner = game.winner();
+        winner.getCards();
+    }
+
+    @Test
+    public void test_multiple_games(){
+        for(int i=0; i < 10; i++) {
+            Game game = new Game(4);
+            game.deal();
+            game.winner().getCards();
+        }
     }
 }

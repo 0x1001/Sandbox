@@ -40,5 +40,9 @@ public class TestTranslator {
         card.setValue(6);
         card.setSuit(Suit.HEARTS);
         assertEquals(translator.translate(card), 33);
+
+        card.setValue(8);
+        card.setSuit(Suit.HEARTS);
+        assertEquals(translator.translate(card), 25);
     }
 }

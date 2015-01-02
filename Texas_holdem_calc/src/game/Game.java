@@ -24,14 +24,22 @@ public class Game {
             for(Player player: players)
                 player.addCard(cards.remove(0));
 
-
         for(int card_number = 0; card_number < 5; card_number++)
             board.addCard(cards.remove(0));
     }
 
-    public void verify() {
+    public Player winner(){
+        int max_score = 0;
+        int score = 0;
+        Player winner = new Player();
+
         for(Player player: players){
-            System.out.println(rules.evaluate(player, board));
+            score = rules.evaluate(player, board);
+            if (score > max_score){
+                winner = player;
+            }
         }
+
+        return winner;
     }
 }
