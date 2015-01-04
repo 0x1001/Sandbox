@@ -34,15 +34,33 @@ public class Statistics {
                 if (this.player_cards.size() == i)
                     break;
 
-                out.println("### + Hits: " + this.player_cards.get(i).getHits());
+                out.println("### Hits: " + this.player_cards.get(i).getHits());
                 for (Card card : this.player_cards.get(i).getCards())
-                    out.println(card.getValue() + " " + card.getSuit());
+                    out.println(formatCard(card));
             }
             out.close();
         } catch (FileNotFoundException error){
             System.out.println("Can't write to file: " + path);
             return;
         }
+    }
+
+    private String formatCard(Card card){
+        String output = "";
+        if (card.getValue() == 1)
+            output += "Ace";
+        else if (card.getValue() == 11)
+            output += "Jack";
+        else if (card.getValue() == 12)
+            output += "Queen";
+        else if (card.getValue() == 13)
+            output += "King";
+        else
+            output += card.getValue();
+
+        output += " " + card.getSuit();
+
+        return output;
     }
 
     private void addPlayerCards(PlayerCards player_cards){
