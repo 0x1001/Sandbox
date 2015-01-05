@@ -10,7 +10,7 @@ import static org.junit.Assert.assertArrayEquals;
 public class TestSort {
     @Test
     public void testSort(){
-        //check(new int[] {4, 2, 1});
+        check(new int[] {4, 2, 1});
         check(new int[]{4, 5, 10, 1, 3, 15, 6, 8});
     }
 
@@ -19,9 +19,6 @@ public class TestSort {
         Sort.sort(array);
 
         Arrays.sort(array_copy);
-
-        printArray(array);
-        printArray(array_copy);
         assertArrayEquals(array_copy, array);
     }
 

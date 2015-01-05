@@ -3,9 +3,7 @@ package heap_sort;
 
 public class Sort {
     public static void sort(int[] array){
-        MaxHeap heap = new MaxHeap();
-
-        heap.build(array);
+        MaxHeap heap = new MaxHeap(array);
 
         for(int i = array.length - 1; i > 0; i--) {
             heap.setSize(heap.getSize() - 1);
