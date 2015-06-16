@@ -1,11 +1,13 @@
 import unittest
 
+
 def permute(string):
     list_of_results = []
 
     _permute(string, '', list_of_results)
 
     return list_of_results
+
 
 def _permute(string, result, list_of_results):
     if string == '':
@@ -14,6 +16,7 @@ def _permute(string, result, list_of_results):
         for n in string:
             sub_str = string.replace(n, '')
             _permute(sub_str, result + n, list_of_results)
+
 
 class Test_permutation(unittest.TestCase):
     def test_permutation_1(self):
