@@ -38,7 +38,8 @@ class TurboSmtp(object):
     def _analyse_response(self, response):
         import json
 
-        msg = json.loads(response.read())
+        resp_contents = response.read()
+        msg = json.loads(resp_contents)
 
         if msg['message'] != "OK":
-            raise TurboSmtpException(response.read())
+            raise TurboSmtpException(resp_contents)
