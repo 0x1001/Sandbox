@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <Tone.h>
+#include <math.h>
 
 #define POTENTIOMETER 0
 #define SPEAKER 11
@@ -8,25 +9,28 @@ Tone freq1;
 
 void setup()
 {
-  //Serial.begin(9600);
+  Serial.begin(9600);
   freq1.begin(SPEAKER);
 }
 
+int potentiometer;
+int multiplier;
+int last_multiplier = 0;
+
 void loop()
 {
-  int potentiometer;
-  int freq;
-  int last_freq = 0;
-
   potentiometer = analogRead(POTENTIOMETER);
 
-  freq = (int)(((float)potentiometer - 0.0)*(3000.0 - 1000.0)/(1023.0 - 0.0) + 0.0);
+  multiplier = (int)(((float)potentiometer - 0.0)*(12.0 - 0.0)/(1023.0 - 0.0) + 0.0);
+
+  int freq = pow(2, (float)multiplier/12.0)*440;
   freq1.play(freq, 500);
 
-  if (freq != last_freq)
+  if (multiplier != last_multiplier)
   {
-      //Serial.print(freq);
-      last_freq = freq;
+      Serial.println(freq);
+      Serial.println(multiplier);
+      last_multiplier = multiplier;
   }
 
   delay(10);
