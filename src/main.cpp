@@ -3,19 +3,22 @@
 #include <math.h>
 
 #define POTENTIOMETER 0
-#define SPEAKER 11
+#define SPEAKER_1 11
+#define SPEAKER_2 10
 
 Tone freq1;
+Tone freq2;
 
 void setup()
 {
   Serial.begin(9600);
-  freq1.begin(SPEAKER);
+  freq1.begin(SPEAKER_1);
+  freq2.begin(SPEAKER_2);
 }
 
 int potentiometer;
 int multiplier;
-int last_multiplier = 0;
+int last_potentiometer = 0;
 
 void loop()
 {
@@ -24,13 +27,14 @@ void loop()
   multiplier = (int)(((float)potentiometer - 0.0)*(12.0 - 0.0)/(1023.0 - 0.0) + 0.0);
 
   int freq = pow(2, (float)multiplier/12.0)*440;
-  freq1.play(freq, 500);
+  //freq1.play(freq, 500);
 
-  if (multiplier != last_multiplier)
+  //freq2.play(880, 500);
+
+  if (potentiometer != last_potentiometer)
   {
-      Serial.println(freq);
-      Serial.println(multiplier);
-      last_multiplier = multiplier;
+      Serial.println(potentiometer);
+      last_potentiometer = potentiometer;
   }
 
   delay(10);
