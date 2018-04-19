@@ -1,80 +1,50 @@
 #include <Arduino.h>
-#include <Tone.h>
-#include <math.h>
 
-#define POTENTIOMETER 0
-#define SPEAKER_1 11
-#define SPEAKER_2 10
+#define POTENTIOMETER_1 0
+#define POTENTIOMETER_2 1
 
-Tone freq1;
-Tone freq2;
+#define AVERAGE 20
 
 void setup()
 {
   Serial.begin(9600);
-  freq1.begin(SPEAKER_1);
-  freq2.begin(SPEAKER_2);
+  delay(100);
+  Serial.println("Hello Audio 1.0");
 }
 
-int potentiometer;
-int multiplier;
-int last_potentiometer = 0;
+int potentiometer_1;
+int potentiometer_2;
+
+int last_potentiometer_1 = 0;
+int last_potentiometer_2 = 0;
 
 void loop()
 {
-  potentiometer = analogRead(POTENTIOMETER);
+  unsigned int avg_potentiometer_1 = 0;
+  unsigned int avg_potentiometer_2 = 0;
 
-  multiplier = (int)(((float)potentiometer - 0.0)*(12.0 - 0.0)/(1023.0 - 0.0) + 0.0);
-
-  int freq = pow(2, (float)multiplier/12.0)*440;
-  //freq1.play(freq, 500);
-
-  //freq2.play(880, 500);
-
-  if (potentiometer != last_potentiometer)
+  for (int i=0; i < AVERAGE; i++)
   {
-      Serial.println(potentiometer);
-      last_potentiometer = potentiometer;
+    avg_potentiometer_1 += analogRead(POTENTIOMETER_1);
+    avg_potentiometer_2 += analogRead(POTENTIOMETER_2);
   }
 
-  delay(10);
-}
+  potentiometer_1 = avg_potentiometer_1 / AVERAGE;
+  potentiometer_2 = avg_potentiometer_2 / AVERAGE;
 
-/*
-Tone freq1;
-Tone freq2;
-
-const int DTMF_freq1[] = { 1336, 1209, 1336, 1477, 1209, 1336, 1477, 1209, 1336, 1477 };
-const int DTMF_freq2[] = {  941,  697,  697,  697,  770,  770,  770,  852,  852,  852 };
-
-void setup()
-{
-  Serial.begin(9600);
-  freq1.begin(11);
-  freq2.begin(12);
-}
-
-void playDTMF(uint8_t number, long duration)
-{
-  freq1.play(DTMF_freq1[number], duration);
-  freq2.play(DTMF_freq2[number], duration);
-}
-
-
-void loop()
-{
-  int i;
-  uint8_t phone_number[] = { 8, 6, 7, 5, 3, 0 ,9 };
-
-  for(i = 0; i < sizeof(phone_number); i ++)
+  if (potentiometer_1 != last_potentiometer_1)
   {
-    Serial.print(phone_number[i], 10);
-    Serial.print(' ');
-    playDTMF(phone_number[i], 500);
-    delay(600);
+      Serial.print("A");
+      Serial.println(potentiometer_1);
+      last_potentiometer_1 = potentiometer_1;
   }
 
-  Serial.println();
-  delay(4000);
+  if (potentiometer_2 != last_potentiometer_2)
+  {
+      Serial.print("B");
+      Serial.println(potentiometer_2);
+      last_potentiometer_2 = potentiometer_2;
+  }
+
+  delay(1);
 }
-*/
