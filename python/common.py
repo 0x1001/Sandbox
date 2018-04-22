@@ -5,7 +5,7 @@ def wait_for_start(serial):
         print("Connected!")
         return
     else:
-        raise Exception("Wrong start message: " + line)
+        raise Exception("Wrong start message: " + line.decode("utf8"))
 
 
 def get_value(line):

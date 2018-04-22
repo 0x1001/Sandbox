@@ -1,11 +1,22 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import random
+import time
 
-plt.axis([0, 10, 0, 1])
+fig = plt.gcf()
+fig.show()
+fig.canvas.draw()
 
-for i in range(10):
-    y = np.random.random()
-    plt.scatter(i, y)
-    plt.pause(0.05)
+x = []
+y = []
+while True:
+    # compute something
+    x.append(random.random())
+    y.append(random.random())
+    plt.plot(x, y)  # plot something
 
-plt.show()
+    # update canvas immediately
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    # plt.pause(0.01)  # I ain't needed!!!
+    fig.canvas.draw()
+    time.sleep(0.05)
