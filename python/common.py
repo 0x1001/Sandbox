@@ -2,7 +2,7 @@ def wait_for_start(serial):
     line = serial.readline()
 
     if "Hello Audio 1.0" in line.decode("utf8"):
-        print("Connected!")
+        print("Connected to keyboard!")
         return
     else:
         raise Exception("Wrong start message: " + line.decode("utf8"))
