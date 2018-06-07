@@ -39,12 +39,14 @@ class Volume:
 
             if common.first_button(line):
                 potentiometer = common.get_value(line)
-                volume = self._calculate_volume_1(potentiometer)
+                #volume = self._calculate_volume_1(potentiometer)
+                volume = self._calculate_volume_2_alt(potentiometer)
                 self.set_volume_1(volume)
 
             elif common.second_button(line):
                 potentiometer = common.get_value(line)
-                volume = self._calculate_volume_2(potentiometer)
+                #volume = self._calculate_volume_2(potentiometer)
+                volume = self._calculate_volume_2_alt(potentiometer)
                 self.set_volume_2(volume)
 
     def _calculate_volume_1(self, potentiometer):
@@ -74,6 +76,24 @@ class Volume:
             volume = 0
 
         return volume
+
+    def _calculate_volume_1_alt(self, potentiometer):
+        RANGE_MAX = 1
+        RANGE_MIN = 0.1
+
+        if potentiometer < 700:
+            return 0.0
+
+        return (potentiometer - 700) * (RANGE_MAX - RANGE_MIN) / (1023.0 - 700) + RANGE_MIN
+
+    def _calculate_volume_2_alt(self, potentiometer):
+        RANGE_MAX = 1
+        RANGE_MIN = 0.1
+
+        if potentiometer < 400:
+            return 0.0
+
+        return (potentiometer - 400) * (RANGE_MAX - RANGE_MIN) / (1023.0 - 400) + RANGE_MIN
 
 
 def play():
