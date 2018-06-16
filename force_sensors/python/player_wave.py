@@ -3,6 +3,7 @@ import wave
 import serial
 import common
 import threading
+import queue
 
 CHUNK = 32
 
@@ -81,10 +82,10 @@ class Volume:
         RANGE_MAX = 1
         RANGE_MIN = 0.1
 
-        if potentiometer < 700:
+        if potentiometer < 800:
             return 0.0
 
-        return (potentiometer - 700) * (RANGE_MAX - RANGE_MIN) / (1023.0 - 700) + RANGE_MIN
+        return (potentiometer - 800) * (RANGE_MAX - RANGE_MIN) / (1023.0 - 800) + RANGE_MIN
 
     def _calculate_volume_2_alt(self, potentiometer):
         RANGE_MAX = 1
@@ -97,6 +98,7 @@ class Volume:
 
 
 def play():
+    data_queue = queue.Queue(maxsize=1)
     file_1 = wave.open(r"samples\051-d#.wav","rb")
     file_2 = wave.open(r"samples\048-c.wav", "rb")
     p = pyaudio.PyAudio()
@@ -115,6 +117,8 @@ def play():
                     rate=file_1.getframerate(),
                     output=True)
 
+    threading.Thread(target=_write_stream, args=(stream, data_queue)).start()
+
     vol = Volume()
     while True:
         data_1 = file_1.readframes(CHUNK)
@@ -122,10 +126,12 @@ def play():
 
         if not data_1:
             file_1.rewind()
+            file_1.setpos(4096)
             data_1 = file_1.readframes(CHUNK)
 
         if not data_2:
             file_2.rewind()
+            file_2.setpos(4096)
             data_2 = file_2.readframes(CHUNK)
 
         output = b''
@@ -152,12 +158,17 @@ def play():
 
             output = output + ch1.to_bytes(3, "little", signed=True) + ch2.to_bytes(3, "little", signed=True)
 
-        stream.write(output)
+        data_queue.put(output)
 
     stream.stop_stream()
     stream.close()
     p.terminate()
 
+
+def _write_stream(stream, queue_data):
+    while True:
+        data = queue_data.get()
+        stream.write(data)
 
 if __name__ == "__main__":
     play()
