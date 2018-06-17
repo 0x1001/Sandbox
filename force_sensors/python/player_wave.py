@@ -1,9 +1,12 @@
+import datetime
 import pyaudio
 import wave  
 import serial
 import common
 import threading
 import queue
+import numpy as np
+import struct
 
 CHUNK = 32
 
@@ -134,29 +137,57 @@ def play():
             file_2.setpos(4096)
             data_2 = file_2.readframes(CHUNK)
 
-        output = b''
         volume_1 = vol.get_volume_1()
         volume_2 = vol.get_volume_2()
-        for i in range(0, len(data_1), 6):
-            # First sample
-            s1_ch1 = int.from_bytes(data_1[i:i+3], "little", signed=True)
-            s1_ch2 = int.from_bytes(data_1[i+3:i+6], "little", signed=True)
 
-            s1_ch1 = int(s1_ch1 * volume_1)
-            s1_ch2 = int(s1_ch2 * volume_1)
+        if True:
+            s1_ch1 = np.array([int.from_bytes(data_1[i:i+3], "little", signed=True) for i in range(0, len(data_1), 6)]) * volume_1 / 2
+            s1_ch2 = np.array([int.from_bytes(data_1[i+3:i+6], "little", signed=True) for i in range(0, len(data_1), 6)]) * volume_1 / 2
 
-            # Second sample
-            s2_ch1 = int.from_bytes(data_2[i:i+3], "little", signed=True)
-            s2_ch2 = int.from_bytes(data_2[i+3:i+6], "little", signed=True)
+            s2_ch1 = np.array([int.from_bytes(data_2[i:i+3], "little", signed=True) for i in range(0, len(data_2), 6)]) * volume_2 / 2
+            s2_ch2 = np.array([int.from_bytes(data_2[i+3:i+6], "little", signed=True) for i in range(0, len(data_2), 6)]) * volume_2 / 2
 
-            s2_ch1 = int(s2_ch1 * volume_2)
-            s2_ch2 = int(s2_ch2 * volume_2)
+            if s1_ch1.size > s2_ch1.size:
+                ch1 = s1_ch1[:s2_ch1.size] + s2_ch1
+                ch2 = s1_ch2[:s2_ch2.size] + s2_ch2
+            elif s1_ch1.size < s2_ch1.size:
+                ch1 = s1_ch1 + s2_ch1[:s1_ch1.size]
+                ch2 = s1_ch2 + s2_ch2[:s1_ch2.size]
+            else:
+                ch1 = s1_ch1 + s2_ch1
+                ch2 = s1_ch2 + s2_ch2
 
-            # Combined sound:
-            ch1 = int((s1_ch1 + s2_ch1) / 2)
-            ch2 = int((s1_ch2 + s2_ch2) / 2)
+            both = np.empty((ch1.size + ch2.size,), dtype=ch1.dtype)
+            both[0::2] = ch1
+            both[1::2] = ch2
 
-            output = output + ch1.to_bytes(3, "little", signed=True) + ch2.to_bytes(3, "little", signed=True)
+            output = b''.join([int(d).to_bytes(3, "little", signed=True) for d in both])
+
+        if False:
+            both = []
+            for i in range(0, len(data_1), 6):
+                # First sample
+                s1_ch1 = int.from_bytes(data_1[i:i+3], "little", signed=True)
+                s1_ch2 = int.from_bytes(data_1[i+3:i+6], "little", signed=True)
+
+                s1_ch1 = int(s1_ch1 * volume_1)
+                s1_ch2 = int(s1_ch2 * volume_1)
+
+                # Second sample
+                s2_ch1 = int.from_bytes(data_2[i:i+3], "little", signed=True)
+                s2_ch2 = int.from_bytes(data_2[i+3:i+6], "little", signed=True)
+
+                s2_ch1 = int(s2_ch1 * volume_2)
+                s2_ch2 = int(s2_ch2 * volume_2)
+
+                # Combined sound:
+                ch1 = int((s1_ch1 + s2_ch1) / 2)
+                ch2 = int((s1_ch2 + s2_ch2) / 2)
+
+                both.append(ch1.to_bytes(3, "little", signed=True))
+                both.append(ch2.to_bytes(3, "little", signed=True))
+
+            output = b''.join(both)
 
         data_queue.put(output)
 
