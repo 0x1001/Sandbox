@@ -1,4 +1,3 @@
-import datetime
 import pyaudio
 import wave  
 import serial
@@ -6,7 +5,6 @@ import common
 import threading
 import queue
 import numpy as np
-import struct
 
 CHUNK = 32
 
@@ -122,6 +120,10 @@ def play():
 
     threading.Thread(target=_write_stream, args=(stream, data_queue)).start()
 
+    s1_ch1 = np.zeros([CHUNK])
+    s1_ch2 = np.zeros([CHUNK])
+    s2_ch1 = np.zeros([CHUNK])
+    s2_ch2 = np.zeros([CHUNK])
     vol = Volume()
     while True:
         data_1 = file_1.readframes(CHUNK)
@@ -141,11 +143,21 @@ def play():
         volume_2 = vol.get_volume_2()
 
         if True:
-            s1_ch1 = np.array([int.from_bytes(data_1[i:i+3], "little", signed=True) for i in range(0, len(data_1), 6)]) * volume_1 / 2
-            s1_ch2 = np.array([int.from_bytes(data_1[i+3:i+6], "little", signed=True) for i in range(0, len(data_1), 6)]) * volume_1 / 2
+            sample_idx = 0
+            for i in range(0, len(data_1), 6):
+                s1_ch1[sample_idx] = int.from_bytes(data_1[i:i+3], "little", signed=True)
+                s1_ch2[sample_idx] = int.from_bytes(data_1[i+3:i+6], "little", signed=True)
 
-            s2_ch1 = np.array([int.from_bytes(data_2[i:i+3], "little", signed=True) for i in range(0, len(data_2), 6)]) * volume_2 / 2
-            s2_ch2 = np.array([int.from_bytes(data_2[i+3:i+6], "little", signed=True) for i in range(0, len(data_2), 6)]) * volume_2 / 2
+                s2_ch1[sample_idx] = int.from_bytes(data_2[i:i+3], "little", signed=True)
+                s2_ch2[sample_idx] = int.from_bytes(data_2[i+3:i+6], "little", signed=True)
+
+                sample_idx += 1
+
+            s1_ch1 = s1_ch1 * (volume_1 / 2)
+            s1_ch2 = s1_ch2 * (volume_1 / 2)
+
+            s2_ch1 = s2_ch1 * (volume_2 / 2)
+            s2_ch2 = s2_ch2 * (volume_2 / 2)
 
             if s1_ch1.size > s2_ch1.size:
                 ch1 = s1_ch1[:s2_ch1.size] + s2_ch1
