@@ -230,15 +230,16 @@ def play():
 
 def _load_dll():
     try:
-        return ctypes.WinDLL("..\\volume_change\\x64\\Debug\\volume_change.dll")
-    except FileNotFoundError:
-        return ctypes.WinDLL("volume_change.dll")
+        return ctypes.cdll.LoadLibrary("..\\volume_change\\Debug\\volume_change.dll")
+    except OSError:
+        return ctypes.cdll.LoadLibrary("volume_change.dll")
 
 
 def _write_stream(stream, queue_data):
     while True:
         data = queue_data.get()
         stream.write(data)
+
 
 if __name__ == "__main__":
     play()

@@ -1,6 +1,8 @@
 import ctypes
 
-hllDll = ctypes.WinDLL ("..\\volume_change\\x64\\Debug\\volume_change.dll")
+#hllDll = ctypes.WinDLL("..\\volume_change\\Debug\\volume_change.dll")
+#hllDll = ctypes.windll.LoadLibrary("..\\volume_change\\Debug\\volume_change.dll")
+hllDll = ctypes.cdll.LoadLibrary("..\\volume_change\\Debug\\volume_change.dll")
 
 print(hllDll.test_1())
 
