@@ -1,4 +1,9 @@
+.vs
 .pioenvs
 .piolibdeps
 .clang_complete
 .gcc-flags.json
+volume_change/Debug/*
+volume_change/x64/*
+volume_change/volume_change/Debug/*
+volume_change/volume_change/x64/*

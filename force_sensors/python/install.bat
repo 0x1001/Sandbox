@@ -1,4 +1,4 @@
-PYTHON=c:\tools\Python36\python.exe
+SET PYTHON=c:\tools\Python36\python.exe
 
 IF EXIST ".venv" (
     rmdir /q /s .venv

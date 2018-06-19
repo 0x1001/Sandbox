@@ -5,6 +5,7 @@ import common
 import threading
 import queue
 import numpy as np
+import ctypes
 
 CHUNK = 32
 
@@ -102,6 +103,12 @@ def play():
     data_queue = queue.Queue(maxsize=1)
     file_1 = wave.open(r"samples\051-d#.wav","rb")
     file_2 = wave.open(r"samples\048-c.wav", "rb")
+
+    dll_handle = _load_dll()
+
+    buffer_c = ctypes.create_string_buffer(CHUNK * 3 * 2)  # 3 - bytes sample, 2 - channels
+    buffer_size_c = ctypes.c_int()
+
     p = pyaudio.PyAudio()
 
     print("Sample width 1: {0}".format(file_1.getsampwidth()))
@@ -139,10 +146,10 @@ def play():
             file_2.setpos(4096)
             data_2 = file_2.readframes(CHUNK)
 
-        volume_1 = vol.get_volume_1()
-        volume_2 = vol.get_volume_2()
+        volume_1 = vol.get_volume_1() / 2  # Divided by 2 because two waves are being combined together at the output to one channel
+        volume_2 = vol.get_volume_2() / 2
 
-        if True:
+        if False:
             sample_idx = 0
             for i in range(0, len(data_1), 6):
                 s1_ch1[sample_idx] = int.from_bytes(data_1[i:i+3], "little", signed=True)
@@ -153,11 +160,11 @@ def play():
 
                 sample_idx += 1
 
-            s1_ch1 = s1_ch1 * (volume_1 / 2)
-            s1_ch2 = s1_ch2 * (volume_1 / 2)
+            s1_ch1 = s1_ch1 * volume_1
+            s1_ch2 = s1_ch2 * volume_1
 
-            s2_ch1 = s2_ch1 * (volume_2 / 2)
-            s2_ch2 = s2_ch2 * (volume_2 / 2)
+            s2_ch1 = s2_ch1 * volume_2
+            s2_ch2 = s2_ch2 * volume_2
 
             if s1_ch1.size > s2_ch1.size:
                 ch1 = s1_ch1[:s2_ch1.size] + s2_ch1
@@ -193,19 +200,39 @@ def play():
                 s2_ch2 = int(s2_ch2 * volume_2)
 
                 # Combined sound:
-                ch1 = int((s1_ch1 + s2_ch1) / 2)
-                ch2 = int((s1_ch2 + s2_ch2) / 2)
+                ch1 = int(s1_ch1 + s2_ch1)
+                ch2 = int(s1_ch2 + s2_ch2)
 
                 both.append(ch1.to_bytes(3, "little", signed=True))
                 both.append(ch2.to_bytes(3, "little", signed=True))
 
             output = b''.join(both)
 
+        if True:
+            # int change_volume(UINT8 * wave_1, UINT8 * wave_2, UINT32 wave_size, float volume_1, float volume_2, UINT8 *output, UINT32 *output_size)
+            if len(data_1) > len(data_2):
+                data_1 = data_1[:len(data_2)]
+            elif len(data_1) < len(data_2):
+                data_2 = data_2[:len(data_1)]
+
+            volume_1_c = ctypes.c_float(volume_1)
+            volume_2_c = ctypes.c_float(volume_2)
+
+            dll_handle.change_volume(data_1, data_2, len(data_1), volume_1_c, volume_2_c, buffer_c, buffer_size_c)
+            output = buffer_c.raw
+
         data_queue.put(output)
 
     stream.stop_stream()
     stream.close()
     p.terminate()
+
+
+def _load_dll():
+    try:
+        return ctypes.WinDLL("..\\volume_change\\x64\\Debug\\volume_change.dll")
+    except FileNotFoundError:
+        return ctypes.WinDLL("volume_change.dll")
 
 
 def _write_stream(stream, queue_data):
